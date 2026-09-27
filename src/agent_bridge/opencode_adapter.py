@@ -116,8 +116,12 @@ class OpenCodeAdapter:
         return models
 
     def ensure_model_available(self, model: str) -> None:
-        if model not in self.list_models():
-            raise OpenCodeError("model_unavailable", f"configured model {model!r} is not listed by OpenCode")
+        for attempt in range(2):
+            if model in self.list_models():
+                return
+            if attempt == 0:
+                time.sleep(1)
+        raise OpenCodeError("model_unavailable", f"configured model {model!r} is not listed by OpenCode")
 
     def run_task(
         self,

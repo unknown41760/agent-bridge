@@ -78,12 +78,21 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(result.unresolved, payload["unresolved"])
 
     def test_model_presence_check_fails_without_substitution(self):
-        runner = FakeRunner([subprocess.CompletedProcess([], 0, "provider/other\n", "")])
+        runner = FakeRunner([subprocess.CompletedProcess([], 0, "provider/other\n", "") for _ in range(2)])
         adapter = OpenCodeAdapter(executable="opencode", runner=runner)
         with self.assertRaises(OpenCodeError) as ctx:
             adapter.ensure_model_available("provider/intended")
         self.assertEqual(ctx.exception.category, "model_unavailable")
-        self.assertEqual(runner.calls[0][0], ["opencode", "models"])
+        self.assertEqual([call[0] for call in runner.calls], [["opencode", "models"]] * 2)
+
+    def test_model_presence_check_retries_transient_omission(self):
+        runner = FakeRunner([
+            subprocess.CompletedProcess([], 0, "provider/other\n", ""),
+            subprocess.CompletedProcess([], 0, "provider/intended\n", ""),
+        ])
+        adapter = OpenCodeAdapter(executable="opencode", runner=runner)
+        adapter.ensure_model_available("provider/intended")
+        self.assertEqual(len(runner.calls), 2)
 
     def test_openspec_source_appears_in_worker_contract(self):
         t = TaskEnvelope.from_mapping({
