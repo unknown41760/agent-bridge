@@ -133,6 +133,7 @@ class OpenCodeAdapter:
         argv = [
             exe,
             "run",
+            "--standalone",
             "--model",
             model,
             "--format",

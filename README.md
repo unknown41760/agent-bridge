@@ -50,7 +50,7 @@ agent-bridge status --json
 
 The vendor-specific assumptions are isolated in `opencode_adapter.py` and `codex_adapter.py`.
 
-OpenCode v2.0.18 supports `--model provider/model`, `--session`, and `--format json` on `run`. The bridge sets the subprocess working directory instead of passing a directory flag. The adapter expects JSON events with a top-level `sessionID`; a live run is still needed to verify that event contract against v2.0.18.
+OpenCode v2.0.18 supports `--model provider/model`, `--session`, `--format json`, and `--standalone` on `run`. The bridge sets the subprocess working directory and uses OpenCode's standalone mode to isolate each run from the shared background service. A live v2.0.18 run confirmed JSON events with a top-level `sessionID`.
 
 Codex's current `exec` surface supports JSONL events, `--output-schema`, a working directory, sandbox configuration, and thread IDs in `thread.started`. Consultations use a read-only sandbox and structured final output.
 

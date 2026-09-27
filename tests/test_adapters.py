@@ -45,6 +45,7 @@ class AdapterTests(unittest.TestCase):
             result = adapter.run_task(task(), model="provider/model", workspace=tmp)
             argv, kwargs = runner.calls[0]
             self.assertEqual(argv[:2], ["/bin/opencode", "run"])
+            self.assertIn("--standalone", argv)
             self.assertNotIn("--dir", argv)
             self.assertEqual(argv[argv.index("--model") + 1], "provider/model")
             self.assertEqual(Path(kwargs["cwd"]), Path(tmp))
