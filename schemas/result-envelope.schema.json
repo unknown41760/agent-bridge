@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agent-bridge/result-envelope.schema.json",
+  "title": "ResultEnvelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "task_id", "status", "execution", "summary", "files_changed", "checks", "unresolved", "failure"],
+  "properties": {
+    "version": {"const": 1},
+    "task_id": {"type": "string"},
+    "status": {"type": "string", "enum": ["completed", "needs_coordinator", "blocked", "failed"]},
+    "execution": {
+      "type": "object",
+      "required": ["worker", "model", "session_id", "duration_ms"],
+      "properties": {
+        "worker": {"type": ["string", "null"]},
+        "model": {"type": ["string", "null"]},
+        "session_id": {"type": ["string", "null"]},
+        "duration_ms": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "summary": {"type": "string"},
+    "files_changed": {"type": "array", "items": {"type": "string"}},
+    "checks": {"type": "array", "items": {"type": "object"}},
+    "unresolved": {"type": "array"},
+    "failure": {"type": ["object", "null"]}
+  }
+}

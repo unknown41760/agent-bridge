@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agent-bridge/consultation-result.schema.json",
+  "title": "ConsultationResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "answer", "findings"],
+  "properties": {
+    "status": {"type": "string", "enum": ["completed", "needs_coordinator", "blocked", "failed"]},
+    "answer": {"type": "string"},
+    "findings": {"type": "array"}
+  }
+}

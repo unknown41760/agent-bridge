@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agent-bridge/task-envelope.schema.json",
+  "title": "TaskEnvelope",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["version", "id", "objective", "acceptance_criteria", "worker"],
+  "properties": {
+    "version": {"const": 1},
+    "id": {"type": "string", "minLength": 1},
+    "objective": {"type": "string", "minLength": 1},
+    "context": {"type": "array", "items": {"type": "string"}},
+    "references": {"type": "array", "items": {"type": "string"}},
+    "acceptance_criteria": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "allowed_paths": {"type": "array", "items": {"type": "string"}},
+    "forbidden_paths": {"type": "array", "items": {"type": "string"}},
+    "validation_commands": {"type": "array", "items": {"type": "string"}},
+    "risk": {"type": "string", "enum": ["low", "medium", "high"]},
+    "worker": {"type": "string", "minLength": 1},
+    "source": {"type": ["object", "null"]},
+    "caller": {"type": "object"}
+  }
+}

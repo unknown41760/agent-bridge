@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-bridge"
+version = "0.1.0"
+description = "Thin Codex ↔ OpenCode delegation bridge"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "agent-bridge contributors" }]
+dependencies = []
+
+[project.scripts]
+agent-bridge = "agent_bridge.cli:main"
+codex-delegate = "agent_bridge.cli:delegate_entrypoint"
+codex-consult = "agent_bridge.cli:consult_entrypoint"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+"share/agent-bridge/schemas" = ["schemas/*.json"]
+"share/agent-bridge/instructions" = ["instructions/*.md"]
